@@ -564,11 +564,6 @@
          */
         var zoomTo = function (zoom, interval, ease, callbackFunction) {
 
-            if (zoom < 0 || typeof zoom !== 'number') {
-                console.error('zoomTo(arg) should be a number and greater than 0');
-                return;
-            }
-
             if (typeof interval !== 'number') {
                 interval = 3000;
             }
@@ -580,9 +575,12 @@
 
                 // get a reference to the element
                 var zpdElement = snapsvgzpd.dataStore[self.id].element;
+                var gMatrix = zpdElement.node.getCTM(),
+                    matrixZoom = _increaseDecreaseOrNumber(gMatrix.a, zoom),
+                    matrixString = "matrix(" + matrixZoom + "," + gMatrix.b + "," + gMatrix.c + "," + matrixZoom + "," + gMatrix.e + "," + gMatrix.f + ")";
 
                 // animate our element and call the callback afterwards
-                zpdElement.animate({ transform: new Snap.Matrix().scale(zoom) }, interval, ease || null, function () {
+                zpdElement.animate({ transform: matrixString }, interval, ease || null, function () {
                     if (callbackFunction) {
                         callbackFunction(null, zpdElement);
                     }
