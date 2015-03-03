@@ -109,13 +109,13 @@
          */
         var _increaseDecreaseOrNumber = function increaseDecreaseOrNumber(defaultValue, input) {
             if (input === undefined) {
-                return parseInt(defaultValue);
+                return parseFloat(defaultValue, 10);
             } else if (input[0] == '+') {
-                return defaultValue + parseInt(input.split('+')[1]);
+                return defaultValue + parseFloat(input.split('+')[1], 10);
             } else if (input[0] == '-') {
-                return defaultValue - parseInt(input.split('-')[1]);
+                return defaultValue - parseFloat(input.split('-')[1], 10);
             } else {
-                return parseInt(input);
+                return parseFloat(input, 10);
             }
         };
 
